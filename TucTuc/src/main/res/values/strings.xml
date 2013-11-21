@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TucTuc</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="add_new_tuc">N° TUC</string>
+    <string name="owner">Dueño</string>
+    <string name="saldo">Saldo</string>
+    <string name="add">Agregar</string>
+    <string name="id_tuc">Número de tarjeta</string>
+    <string name="delete">Eliminar</string>
+    <string name="delAll">Eliminar todo</string>
+    <string name="update">Actualizar</string>
+    <string name="updateAll">Actualizar todo</string>
+    <string name="tucList">Mis tarjetas</string>
+
+
+    <string name="invalid_tuc">TUC invalido</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Anular</string>
+    <string name="missing_tuc">Número de tarjeta TUC invalido</string>
+
+
+    <string name="duplicated_tuc_title">TUC duplicado</string>
+    <string name="duplicated_tuc_text">Este número de tarjeta TUC ya existe en su lista.\n\nPara cambiar el dueño, elimina y vuelve a crear la tarjeta.</string>
+
+    <string name="hintNoTuc">Numero TUC</string>
+    <string name="hintDueno">Nombre del dueño</string>
+
+    <string name="sinConnTitle">Sin conexión de red</string>
+    <string name="sinConnMesg">Se requiere una conexión a Internet para poder actualzar el saldo de la tarjeta. Vuelve a intentar cuando está conectado a Internet.</string>
+    <string name="pending">Pendiente</string>
+
+    <string name="removeConfirmTitle">Eliminar TODO ?</string>
+    <string name="removeConfirmMessage">Quieres eliminar todas las tarjetas TUC de tu lista?</string>
+
+    <string name="misVecinosHint">Ver mis vecinos virtuales</string>
+    <string name="misVecinos">Vecinos virtuales de </string>
+
+    <string name="misVecinosExplain">Resultado de la consulta de mis vecinos con número de tarjeta TUC entre 5 numero menor al mío y 5 números mayor, jejeje...</string>
+
+    <string name="misVecinosTotal">Total de saldo de mis vecinos : </string>
+
+    <string name="misVecinosInvalid">Vecinos con tarjeta desactivada : </string>
+    <string name="misVecinosEnZero">Vecinos palmados (saldo en zero) : </string>
+    <string name="misVecinosSinRed">Vecinos desconectados (error de red) : </string>
+    <string name="misVecinosConSaldo">Vecinos con riales : </string>
+    <string name="misVecinosPromedio">Saldo promedio de los vecinos con saldo : </string>
+    <string name="misVecinosPromedioZero">Saldo promedio de los vecinos con o sin saldo : </string>
+    <string name="misVecinosMasRico">Conclusion : los vecinos son mas rico  ;(</string>
+    <string name="misVecinosMasPobre">Conclusion : los vecinos son mas palmados :S</string>
+    <string name="misVecinosSaldoDesc">No se puede comparar el saldo con el suyo ya que no tiene saldo registrado.</string>
+    <string name="misVecinosConsulta">Se esta consultando a los vecinos... Un momento por favor...</string>
+</resources>

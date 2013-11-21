@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tucTableRow"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:padding="5dp"
+    style="@style/AppTheme">
+
+    <TextView
+        android:id="@+id/tucId"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/noTucTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_weight="1"
+        android:textIsSelectable="true" />
+
+    <TextView
+        android:id="@+id/tucOwnerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_weight="2"
+        android:textIsSelectable="true" />
+
+    <TextView
+        android:id="@+id/tucSaldoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_weight="1"
+        android:textIsSelectable="true" />
+
+    <ImageButton
+        android:id="@+id/tucDelButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:src="@drawable/remove"/>
+
+
+    <ImageButton
+        android:id="@+id/tucDelButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:onClick="verVecinos"
+        android:src="@drawable/customers"/>
+
+
+</TableRow>

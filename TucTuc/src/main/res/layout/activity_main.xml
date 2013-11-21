@@ -1,0 +1,140 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    tools:context=".MainActivity">
+
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/add_new_tuc"
+            android:id="@+id/newTucView"
+            android:layout_weight="1.2"
+            />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/newTucEdit"
+            android:layout_weight="1.5"
+            android:inputType="number"
+            android:hint="@string/hintNoTuc"
+            android:numeric="integer"
+            >
+        </EditText>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/owner"
+            android:layout_weight="1"
+            android:id="@+id/ownerView"
+            />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/newTucOwner"
+            android:hint="@string/hintDueno"
+            android:layout_weight="2.2"
+            android:inputType="textPersonName"
+            >
+        </EditText>
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/add"
+            android:id="@+id/addTucButton"
+            android:src="@drawable/add"
+            android:layout_weight="1"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_margin="5dp"
+            />
+
+    </TableRow>
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/SteelBlue">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tucList"
+            android:id="@+id/tucTextView"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:gravity="center_horizontal"
+            android:textStyle="bold" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow3"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="5"
+        android:background="@color/LightBlue">
+
+        <ScrollView
+            android:id="@+id/tucScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="5"
+            android:layout_span="5"
+            android:padding="5dp"
+            >
+
+            <TableLayout
+                android:id="@+id/tucTableScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:padding="5dp"
+                android:stretchColumns="yes"
+                android:layout_weight="5"
+                >
+
+            </TableLayout>
+        </ScrollView>
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow4"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/LightBlue">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delAll"
+            android:background="@color/MidnightBlue"
+            android:textColor="@color/white"
+            android:id="@+id/deleteAllButton"
+            android:layout_margin="5dp"
+            android:layout_weight="1"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/updateAll"
+            android:background="@color/MidnightBlue"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"
+            android:id="@+id/updateAllButton"
+            android:layout_weight="1"/>
+
+    </TableRow>
+</TableLayout>
