@@ -38,7 +38,7 @@
     <string name="misVecinosHint">Ver mis vecinos virtuales</string>
     <string name="misVecinos">Vecinos virtuales de </string>
 
-    <string name="misVecinosExplain">Resultado de la consulta de mis vecinos con número de tarjeta TUC entre 5 numero menor al mío y 5 números mayor, jejeje...</string>
+    <string name="misVecinosExplain">Resultado de la consulta de mis vecinos con número de tarjeta TUC entre 5 número menor al mio y 5 números mayor, jejeje...</string>
 
     <string name="misVecinosTotal">Total de saldo de mis vecinos : </string>
 
@@ -48,8 +48,8 @@
     <string name="misVecinosConSaldo">Vecinos con riales : </string>
     <string name="misVecinosPromedio">Saldo promedio de los vecinos con saldo : </string>
     <string name="misVecinosPromedioZero">Saldo promedio de los vecinos con o sin saldo : </string>
-    <string name="misVecinosMasRico">Conclusion : los vecinos son mas rico  ;(</string>
-    <string name="misVecinosMasPobre">Conclusion : los vecinos son mas palmados :S</string>
+    <string name="misVecinosMasRico">Conclusión : los vecinos son más rico  ;(</string>
+    <string name="misVecinosMasPobre">Conclusión : los vecinos son más palmados :S</string>
     <string name="misVecinosSaldoDesc">No se puede comparar el saldo con el suyo ya que no tiene saldo registrado.</string>
     <string name="misVecinosConsulta">Se esta consultando a los vecinos... Un momento por favor...</string>
 </resources>
