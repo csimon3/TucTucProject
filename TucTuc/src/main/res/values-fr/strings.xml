@@ -38,18 +38,18 @@
     <string name="misVecinosHint">Consulter mes voisins virtuels</string>
     <string name="misVecinos">Voisins virtuels de </string>
 
-    <string name="misVecinosExplain">Resultats de la consultation du solde de mes voisins virtuels, qui on un numero de carte TUC entre 5 numeros de plus et 5 de moins que celui choisis , hehehe...</string>
+    <string name="misVecinosExplain">Résultats de la consultation du solde de mes voisins virtuels, qui ont un numéro de carte TUC entre 5 numéros de plus et 5 de moins que celui choisis , hehehe...</string>
 
     <string name="misVecinosTotal">Total du solde de mes voisins : </string>
 
-    <string name="misVecinosInvalid">Voisins dont la carte est desactivee : </string>
-    <string name="misVecinosEnZero">Voisins paumes (solde a zero) : </string>
-    <string name="misVecinosSinRed">Voisins desconectes (erreur de reseau) : </string>
+    <string name="misVecinosInvalid">Voisins dont la carte est désactivée : </string>
+    <string name="misVecinosEnZero">Voisins paumés (solde a zéro) : </string>
+    <string name="misVecinosSinRed">Voisins déconectés (erreur de reseau) : </string>
     <string name="misVecinosConSaldo">Voisins avec des tunes : </string>
     <string name="misVecinosPromedio">Solde moyen de mes voisins avec tunes : </string>
     <string name="misVecinosPromedioZero">Solde moyen de mes voisins avec ou sans tunes : </string>
     <string name="misVecinosMasRico">Conclusion : les voisins sont plus riches  ;(</string>
     <string name="misVecinosMasPobre">Conclusion : les voisins sont plus pauvres  :S</string>
     <string name="misVecinosSaldoDesc">Impossible de comparer le solde avec un solde non connu.</string>
-    <string name="misVecinosConsulta">Je consulte les voisins... Un moment s\'il vous plait...</string>
+    <string name="misVecinosConsulta">Je consulte les voisins... Un moment s\'il vous plaît...</string>
 </resources>

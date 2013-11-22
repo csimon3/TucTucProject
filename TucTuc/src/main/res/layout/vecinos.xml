@@ -7,12 +7,14 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <WebView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/webView"
-            android:padding="5dp"
-            android:layout_column="0" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/vecinosTitleView"
+            android:textSize="30sp"
+            android:textStyle="bold" />
     </TableRow>
 
     <TableRow
@@ -21,10 +23,34 @@
 
         <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:id="@+id/progressBar"
-            android:padding="5dp"
-            android:layout_column="0" />
+            android:padding="5dp"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/vecinosResultTextView"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/vecinosConcluTextView"
+            android:textColor="@color/SteelBlue"
+            android:textStyle="bold"
+            android:textSize="20sp" />
     </TableRow>
 </TableLayout>

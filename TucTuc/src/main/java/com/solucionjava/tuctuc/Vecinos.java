@@ -34,7 +34,9 @@ public class Vecinos extends Activity {
     private final String TUC_INVALIDO = "TUC Invalido";
     private int noTuc;
     private Intent myIntent;
-    private WebView webView;
+    private TextView vecinosTitleView;
+    private TextView vecinosResultTextView;
+    private TextView vecinosConcluTextView;
     private String owner="";
     private String saldo="";
     private ProgressBar pd;
@@ -51,13 +53,12 @@ public class Vecinos extends Activity {
         owner= myIntent.getStringExtra("ownerVecino");
         saldo= myIntent.getStringExtra("saldoVecino");
 
-        webView = (WebView) findViewById(R.id.webView);
-        StringBuilder myHtml=new StringBuilder();
+        vecinosTitleView = (TextView) findViewById(R.id.vecinosTitleView);
+        vecinosResultTextView = (TextView) findViewById(R.id.vecinosResultTextView);
+        vecinosConcluTextView = (TextView) findViewById(R.id.vecinosConcluTextView);
         Context cont = getApplicationContext();
-        myHtml.append("<html><head></head><body><h1>"+cont.getString(R.string.misVecinos)+"&nbsp;"+owner+"</h1>" );
-        myHtml.append("<h2>"+cont.getString(R.string.misVecinosConsulta)+"</body></html>");
-        //System.out.println("myHtml = " + myHtml);
-        webView.loadData(myHtml.toString(), "text/html", "utf-8");
+        vecinosTitleView.setText(cont.getString(R.string.misVecinos)+" "+owner+" ("+saldo+" C$)");
+        vecinosResultTextView.setText(cont.getString(R.string.misVecinosConsulta));
         pd = (ProgressBar) findViewById(R.id.progressBar);
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.toast,
@@ -135,32 +136,25 @@ public class Vecinos extends Activity {
             //System.out.println("enZero = "+enZero);
             //System.out.println("conSaldo = "+conSaldo);
             //System.out.println("sinRed = "+sinRed);
-            webView = (WebView) findViewById(R.id.webView);
-            StringBuilder myHtml=new StringBuilder();
             Context cont = getApplicationContext();
-            myHtml.append("<html><head></head><body><h1>"+cont.getString(R.string.misVecinos)+"&nbsp;"+owner+"&nbsp;("+saldo+"&nbsp;C$)</h1>" );
-            myHtml.append("<h2>"+cont.getString(R.string.misVecinosExplain)+"</h2>" );
-            myHtml.append("<table><tr><th style=\"text-align:right;\">"+cont.getString(R.string.misVecinosSinRed)+"</th><td>"+sinRed+"</td></tr>" );
-            myHtml.append("<tr><th style=\"text-align:right;\">"+ cont.getString(R.string.misVecinosInvalid)+"</th><td>"+invalido+"</td></tr>" );
-            myHtml.append("<tr><th style=\"text-align:right;\">"+cont.getString(R.string.misVecinosEnZero)+"</th><td>"+enZero+"</td></tr>" );
-            myHtml.append("<tr><th style=\"text-align:right;\">"+cont.getString(R.string.misVecinosConSaldo)+"</th><td>"+conSaldo+"</td></tr>" );
-            myHtml.append("<tr><th style=\"text-align:right;\">"+cont.getString(R.string.misVecinosTotal)+"</th><td>"+String.format("%.02f",total, Locale.US)+"</td></tr>" );
-            myHtml.append("<tr><th style=\"text-align:right;\">"+cont.getString(R.string.misVecinosPromedio)+"</th><td>"+String.format("%.02f",(total/conSaldo), Locale.US)+"</td></tr>" );
-            myHtml.append("<tr><th style=\"text-align:right;\">"+cont.getString(R.string.misVecinosPromedioZero)+"</th><td>"+String.format("%.02f",(total/(conSaldo+enZero)), Locale.US)+"</td></tr>" );
+            vecinosResultTextView.setText("\n"+cont.getString(R.string.misVecinosExplain)+"\n"+"\n"+cont.getString(R.string.misVecinosSinRed)+" "+sinRed+"\n"+
+                    cont.getString(R.string.misVecinosInvalid)+" "+invalido+"\n"+cont.getString(R.string.misVecinosEnZero)+" "+enZero+"\n"+
+                    cont.getString(R.string.misVecinosConSaldo)+" "+conSaldo+"\n"+
+                    cont.getString(R.string.misVecinosTotal)+" "+String.format("%.02f",total, Locale.US)+"\n"+
+                    cont.getString(R.string.misVecinosPromedio)+" "+String.format("%.02f",(total/conSaldo), Locale.US)+"\n"+
+                    cont.getString(R.string.misVecinosPromedioZero)+" "+String.format("%.02f",(total/(conSaldo+enZero)), Locale.US)+"\n"+"\n" );
+
             //System.out.println("MI saldo = "+saldo);
             try{
                 double miSaldo = Double.parseDouble(saldo.replace(" C$",""));
                 if (total/(conSaldo+enZero)>miSaldo){
-                    myHtml.append("<tr><th colspan=\"2\"  style=\"color:blue;\">"+cont.getString(R.string.misVecinosMasRico)+"</th></tr>" );
+                    vecinosConcluTextView.setText(cont.getString(R.string.misVecinosMasRico));
                 } else {
-                    myHtml.append("<tr><th colspan=\"2\"  style=\"color:blue;\">"+cont.getString(R.string.misVecinosMasPobre)+"</th></tr>" );
+                    vecinosConcluTextView.setText(cont.getString(R.string.misVecinosMasPobre) );
                 }
-            } catch (ArithmeticException e) {
-                myHtml.append("<tr><th colspan=\"2\"  style=\"color:blue;\">"+cont.getString(R.string.misVecinosSaldoDesc)+"</th></tr>" );
+            } catch (NumberFormatException e) {
+                vecinosConcluTextView.setText(cont.getString(R.string.misVecinosSaldoDesc) );
             }
-            myHtml.append("</table></body></html>");
-            //System.out.println("myHtml = "+myHtml);
-            webView.loadData(myHtml.toString(), "text/html", "utf-8");
         }
 
         private String getSaldo(String noTuc, String urlParameters){
