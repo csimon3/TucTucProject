@@ -41,12 +41,6 @@
             android:label="@string/title_activity_settings"
             >
         </activity>
-
-        <activity
-            android:name="com.solucionjava.tuctuc.About"
-            android:configChanges="keyboard|keyboardHidden|mcc|mnc|orientation|screenSize|fontScale|layoutDirection|locale|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
-            android:label="@string/action_about" >
-        </activity>
     </application>
 
 </manifest>
