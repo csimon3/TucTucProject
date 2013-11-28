@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.solucionjava.tuctuc"
-    android:versionCode="1"
-    android:versionName="1.1" >
+    android:versionCode="3"
+    android:versionName="3.1" >
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,9 +15,8 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-
+        android:configChanges="keyboard|keyboardHidden|mcc|mnc|orientation|screenSize|fontScale|layoutDirection|locale|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
         >
-        android:configChanges="keyboardHidden|orientation"
         <activity
             android:name="com.solucionjava.tuctuc.MainActivity"
             android:configChanges="keyboard|keyboardHidden|mcc|mnc|orientation|screenSize|fontScale|layoutDirection|locale|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
@@ -37,6 +36,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            >
+        </activity>
+
+        <activity
+            android:name="com.solucionjava.tuctuc.About"
+            android:configChanges="keyboard|keyboardHidden|mcc|mnc|orientation|screenSize|fontScale|layoutDirection|locale|navigation|screenLayout|smallestScreenSize|touchscreen|uiMode"
+            android:label="@string/action_about" >
         </activity>
     </application>
 

@@ -2,7 +2,9 @@
 <resources>
 
     <string name="app_name">TucTuc</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Preferencias</string>
+    <string name="action_about">Acerca de</string>
+    <string name="action_exit">Salir</string>
 
     <string name="add_new_tuc">N° TUC</string>
     <string name="owner">Dueño</string>
@@ -52,4 +54,11 @@
     <string name="misVecinosMasPobre">Conclusión : los vecinos son más palmados :S</string>
     <string name="misVecinosSaldoDesc">No se puede comparar el saldo con el suyo ya que no tiene saldo registrado.</string>
     <string name="misVecinosConsulta">Se esta consultando a los vecinos... Un momento por favor...</string>
+
+
+    <string name="about">Acerca de TucTuc</string>
+    <string name="createdBy">Creado por : Cédric Simon</string>
+    <string name="version">Versión :    </string>
+    <string name="sourceCode">Código fuente disponible en : </string>
+    <string name="chao">Hasta la vista, bye bye</string>
 </resources>

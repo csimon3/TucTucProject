@@ -2,7 +2,12 @@
 <resources>
 
     <string name="app_name">TucTuc</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Parámetros</string>
+    <string name="exit">Salir</string>
+
+    <string name="pref_header_notifications">pref_header_notifications</string>
+    <string name="pref_header_data_sync">pref_header_data_sync</string>
+    <string name="pref_ringtone_silent">pref_ringtone_silent</string>
 
     <string name="add_new_tuc">N° TUC</string>
     <string name="owner">De qui ?</string>
@@ -52,4 +57,6 @@
     <string name="misVecinosMasPobre">Conclusion : les voisins sont plus pauvres  :S</string>
     <string name="misVecinosSaldoDesc">Impossible de comparer le solde avec un solde non connu.</string>
     <string name="misVecinosConsulta">Je consulte les voisins... Un moment s\'il vous plaît...</string>
+
+
 </resources>

@@ -1,19 +1,27 @@
 package com.solucionjava.tuctuc;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.app.DialogFragment;
+//import android.support.v4.app.DialogFragment;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +29,9 @@ import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -43,15 +54,17 @@ public class MainActivity extends ActionBarActivity {
     Button updateAllButton;
     private TableLayout tucTableScrollView;
     private DBTools dbTools;
-    private final String INDISPONIBLE="No disponible";
+    private final String INDISPONIBLE = "No disponible";
     private final String TUC_INVALIDO = "TUC Invalido";
-
+    private Toast toast;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //SharedPreferences pref = this.getSharedPreferences("example_list",MODE_PRIVATE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         //System.out.println("onCreate");
         dbTools = new DBTools(this);
 
@@ -77,6 +90,20 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this); // Add this method.
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this); // Add this method.
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         // Add saved tucs to the Tuc Scrollview
@@ -87,21 +114,21 @@ public class MainActivity extends ActionBarActivity {
         //System.out.println("updateSavedTucList");
         ArrayList<HashMap<String, String>> tucList = dbTools.getAllTucs();
         tucTableScrollView.removeAllViews();
-            // Display saved tuc list
-            int i=0;
-            for (HashMap<String, String>  s: tucList) {
-                int lineId = insertTucInScrollView(s, i++);
-                View newTucRow = tucTableScrollView.getChildAt(lineId);
-                TextView currSaldo = (TextView) newTucRow.findViewById(R.id.tucSaldoTextView);
-                if (currSaldo.getText()== null || currSaldo.getText().length()==1 || currSaldo.getText().toString().equals(getApplicationContext().getString(R.string.pending))){
-                    //System.out.println("Updating saldo for line "+lineId);
-                    new UpdateSaldo(lineId).execute();
-                }
-
+        // Display saved tuc list
+        int i = 0;
+        for (HashMap<String, String> s : tucList) {
+            int lineId = insertTucInScrollView(s, i++);
+            View newTucRow = tucTableScrollView.getChildAt(lineId);
+            TextView currSaldo = (TextView) newTucRow.findViewById(R.id.tucSaldoTextView);
+            if (currSaldo.getText() == null || currSaldo.getText().length() == 1 || currSaldo.getText().toString().equals(getApplicationContext().getString(R.string.pending))) {
+                //System.out.println("Updating saldo for line "+lineId);
+                new UpdateSaldo(lineId).execute();
             }
+
+        }
     }
 
-    private void saveTucSymbol(String newTuc, String owner){
+    private void saveTucSymbol(String newTuc, String owner) {
         // If this is a new tuc add its components
         String tuc = ("00000000" + newTuc);
         tuc = tuc.substring(tuc.length() - 8);
@@ -124,7 +151,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    private int insertTucInScrollView(HashMap<String, String>  tuc, int arrayIndex) {
+    private int insertTucInScrollView(HashMap<String, String> tuc, int arrayIndex) {
 
         // Get the LayoutInflator service
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -142,11 +169,11 @@ public class MainActivity extends ActionBarActivity {
         tucId.setText(tuc.get("tucId"));
         newTucTextView.setText(tuc.get("noTuc"));
         newTucOwnerTextView.setText(tuc.get("owner"));
-        if (tuc.get("saldo").equals(INDISPONIBLE) || tuc.get("saldo").equals(TUC_INVALIDO)){
-            newTucSaldoTextView.setText(tuc.get("saldo")+"\n"+tuc.get("lastUpdate"));
+        if (tuc.get("saldo").equals(INDISPONIBLE) || tuc.get("saldo").equals(TUC_INVALIDO)) {
+            newTucSaldoTextView.setText(tuc.get("saldo") + "\n" + tuc.get("lastUpdate"));
         } else {
-            if (tuc.get("saldo").length()>2){
-                newTucSaldoTextView.setText(tuc.get("saldo")+" C$\n"+tuc.get("lastUpdate"));
+            if (tuc.get("saldo").length() > 2) {
+                newTucSaldoTextView.setText(tuc.get("saldo") + " C$\n" + tuc.get("lastUpdate"));
             } else {
                 newTucSaldoTextView.setText(R.string.pending);
             }
@@ -226,8 +253,8 @@ public class MainActivity extends ActionBarActivity {
     public View.OnClickListener updateTucsButtonListener = new View.OnClickListener() {
 
         public void onClick(View v) {
-           //System.out.println("isNetworkAvailable()="+isNetworkAvailable());
-            if (isNetworkAvailable()){
+            //System.out.println("isNetworkAvailable()="+isNetworkAvailable());
+            if (isNetworkAvailable()) {
                 for (int i = 0; i < tucTableScrollView.getChildCount(); i++) {
                     new UpdateSaldo(i).execute();
                 }
@@ -246,38 +273,59 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            /*case R.id.action_settings:
+                Intent newIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(newIntent);
+                return true;*/
+            case R.id.action_exit:
+                Toast myToast = Toast.makeText(this,R.string.chao, Toast.LENGTH_SHORT);
+                myToast.show();
+                moveTaskToBack(true);
+                return true;
+            case R.id.action_about:
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    DialogFragment dialog = new About();
+                    dialog.show(getFragmentManager(), "test");
+                } else {
+                    showAlert(R.string.about, R.string.createdBy);
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private class UpdateSaldo extends AsyncTask<String, String, String> {
         int lineId;
         String saldo;
-        public UpdateSaldo (int lineId){
+
+        public UpdateSaldo(int lineId) {
             super();
-            this.lineId=lineId;
+            this.lineId = lineId;
         }
+
         @Override
         protected String doInBackground(String... args) {
             try {
-                int i=lineId;
-                    View newTucRow = tucTableScrollView.getChildAt(i);
-                    //add request header
-                if (newTucRow!=null){
+                int i = lineId;
+                View newTucRow = tucTableScrollView.getChildAt(i);
+                //add request header
+                if (newTucRow != null) {
                     TextView currTuc = (TextView) newTucRow.findViewById(R.id.noTucTextView);
                     //System.out.println("ID = "+currTuc.getText());
                     String tuc = ("00000000" + currTuc.getText());
                     tuc = tuc.substring(tuc.length() - 8);
                     String urlParameters = "_funcion=1&_terminal=" + tuc;
-                    saldo=getSaldo(tuc, urlParameters);
+                    saldo = getSaldo(tuc, urlParameters);
                     HashMap<String, String> newTucMap = new HashMap<String, String>();
                     newTucMap.put("noTuc", tuc);
                     newTucMap.put("lastUpdate", getCurrDate());
@@ -290,24 +338,24 @@ public class MainActivity extends ActionBarActivity {
             return null;
         }
 
-        protected void onPostExecute(String result){
+        protected void onPostExecute(String result) {
             View newTucRow = tucTableScrollView.getChildAt(lineId);
             TextView currSaldo = (TextView) newTucRow.findViewById(R.id.tucSaldoTextView);
             //System.out.println ("old saldo = "+currSaldo.getText());
-            if (currSaldo.getText().length()>1 && (saldo==null || saldo.equals(INDISPONIBLE))){
+            if (currSaldo.getText().length() > 1 && (saldo == null || saldo.equals(INDISPONIBLE))) {
                 //System.out.println("Not updated since no disponible (saldo="+saldo);
             } else {
-                if (saldo.equals(INDISPONIBLE) || saldo.equals(TUC_INVALIDO)){
-                    currSaldo.setText(saldo+"\n"+ getCurrDate());
+                if (saldo.equals(INDISPONIBLE) || saldo.equals(TUC_INVALIDO)) {
+                    currSaldo.setText(saldo + "\n" + getCurrDate());
                 } else {
-                    currSaldo.setText(saldo+" C$\n"+ getCurrDate());
+                    currSaldo.setText(saldo + " C$\n" + getCurrDate());
                 }
             }
             //updateSavedTucList();
         }
 
-        private String getSaldo(String noTuc, String urlParameters){
-            saldo=INDISPONIBLE;
+        private String getSaldo(String noTuc, String urlParameters) {
+            saldo = INDISPONIBLE;
             try {
                 String url = "http://www.mpeso.net/datos/consulta.php";
                 URL obj = new URL(url);
@@ -324,27 +372,29 @@ public class MainActivity extends ActionBarActivity {
                 BufferedReader br = new BufferedReader(isr);
                 String line = br.readLine();
                 //System.out.println(line);
-                if (line.startsWith("{\"Error\":true,")){
-                    saldo=TUC_INVALIDO;
+                if (line.startsWith("{\"Error\":true,")) {
+                    saldo = TUC_INVALIDO;
                 } else {
                     line = line.substring(47).replace("\"}", "");
                     //System.out.println(noTuc+" = " + line);
-                    saldo=line;
+                    saldo = line;
                 }
                 con.disconnect();
             } catch (IOException e) {
                 e.printStackTrace();
-                saldo=INDISPONIBLE;
+                saldo = INDISPONIBLE;
             }
             return saldo;
         }
     }
-    private String  getCurrDate(){
+
+    private String getCurrDate() {
         String currDate;
         GregorianCalendar cal = new GregorianCalendar();
-        currDate= cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.YEAR)+"  "+cal.get(Calendar.HOUR)+":"+cal.get(Calendar.MINUTE)+" "+((cal.get(Calendar.AM_PM)==1)?"PM":"AM");
+        currDate = cal.get(Calendar.DAY_OF_MONTH) + "/" + cal.get(Calendar.MONTH) + "/" + cal.get(Calendar.YEAR) + "  " + cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + " " + ((cal.get(Calendar.AM_PM) == 1) ? "PM" : "AM");
         return currDate;
     }
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -352,7 +402,7 @@ public class MainActivity extends ActionBarActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    private void showAlert(int title, int message){
+    private void showAlert(int title, int message) {
         // Create an alert dialog box
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         // Set alert title
@@ -369,7 +419,8 @@ public class MainActivity extends ActionBarActivity {
         AlertDialog theAlertDialog = builder.create();
         theAlertDialog.show();
     }
-    private void askConfirmDeleteAll(int title, int message){
+
+    private void askConfirmDeleteAll(int title, int message) {
         // Create an alert dialog box
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         // Set alert title
@@ -395,16 +446,17 @@ public class MainActivity extends ActionBarActivity {
         AlertDialog theAlertDialog = builder.create();
         theAlertDialog.show();
     }
-    public void verVecinos (View view){
-        if (isNetworkAvailable()){
+
+    public void verVecinos(View view) {
+        if (isNetworkAvailable()) {
             TableRow tableRow = (TableRow) view.getParent();
             TextView tucTextView = (TextView) tableRow.findViewById(R.id.tucId);
             String tucId = tucTextView.getText().toString();
             HashMap<String, String> myTuc = dbTools.getTucInfo(Integer.parseInt(tucId));
-            Intent myIntent = new Intent(getApplicationContext(),Vecinos.class);
-            myIntent.putExtra("noTucVecino",myTuc.get("noTuc") );
-            myIntent.putExtra("ownerVecino", myTuc.get("owner") );
-            myIntent.putExtra("saldoVecino", myTuc.get("saldo") );
+            Intent myIntent = new Intent(getApplicationContext(), Vecinos.class);
+            myIntent.putExtra("noTucVecino", myTuc.get("noTuc"));
+            myIntent.putExtra("ownerVecino", myTuc.get("owner"));
+            myIntent.putExtra("saldoVecino", myTuc.get("saldo"));
             startActivity(myIntent);
         } else {
             showAlert(R.string.sinConnTitle, R.string.sinConnMesg);
