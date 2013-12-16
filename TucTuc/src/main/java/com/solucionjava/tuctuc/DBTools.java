@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public class DBTools extends SQLiteOpenHelper {
 
-    private final static int    DB_VERSION = 3;
+    private final static int    DB_VERSION = 4;
 
     public DBTools(Context context) {
         super(context, "tuctuc.db", null,DB_VERSION);
@@ -26,6 +26,9 @@ public class DBTools extends SQLiteOpenHelper {
         String query  = "create table tuc (tucId Integer primary key autoincrement, "+
                 " noTuc text, owner text, saldo text, lastUpdate text)";
         sqLiteDatabase.execSQL(query);
+        query  = "create table tucHist (fecha text, tucId Integer, "+
+                    " saldo text)";
+        sqLiteDatabase.execSQL(query);
 
     }
 
@@ -33,16 +36,14 @@ public class DBTools extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
         String query  = "create table tucHist (fecha text, tucId Integer, "+
                 " saldo text)";
-        query  = "create table tucHist (fecha text, tucId Integer, "+
-                " saldo text)";
         sqLiteDatabase.execSQL(query);
     }
 
     public void recreateDb() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        String query = "drop table tuc;";
+        String query = "drop table IF EXISTS tuc;";
         sqLiteDatabase.execSQL(query);
-        query = "drop table tucHist;";
+        query = "drop table IF EXISTS tucHist;";
         sqLiteDatabase.execSQL(query);
         query = "create table tuc (tucId Integer primary key autoincrement, "+
                 " noTuc text, owner text, saldo text, lastUpdate text)";
