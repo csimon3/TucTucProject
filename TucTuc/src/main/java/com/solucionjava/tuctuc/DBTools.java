@@ -15,8 +15,10 @@ import java.util.HashMap;
  */
 public class DBTools extends SQLiteOpenHelper {
 
+    private final static int    DB_VERSION = 3;
+
     public DBTools(Context context) {
-        super(context, "tuctuc.db", null, 1);
+        super(context, "tuctuc.db", null,DB_VERSION);
     }
 
     @Override
@@ -29,18 +31,24 @@ public class DBTools extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
-        String query = "drop table tuc;";
+        String query  = "create table tucHist (fecha text, tucId Integer, "+
+                " saldo text)";
+        query  = "create table tucHist (fecha text, tucId Integer, "+
+                " saldo text)";
         sqLiteDatabase.execSQL(query);
-        onCreate(sqLiteDatabase);
-
     }
 
     public void recreateDb() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         String query = "drop table tuc;";
         sqLiteDatabase.execSQL(query);
+        query = "drop table tucHist;";
+        sqLiteDatabase.execSQL(query);
         query = "create table tuc (tucId Integer primary key autoincrement, "+
                 " noTuc text, owner text, saldo text, lastUpdate text)";
+        sqLiteDatabase.execSQL(query);
+        query  = "create table tucHist (fecha text, tucId Integer, "+
+                " saldo text)";
         sqLiteDatabase.execSQL(query);
 
     }
@@ -49,12 +57,10 @@ public class DBTools extends SQLiteOpenHelper {
         //Log.d(this.getClass().getName(), "Inserting tuc "+ queryValues.get("noTuc"));
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-
         values.put("noTuc", queryValues.get("noTuc"));
         values.put("owner", queryValues.get("owner"));
         values.put("saldo", queryValues.get("saldo"));
         values.put("lastUpdate", queryValues.get("lastUpdate"));
-
         database.insert("tuc", null, values);
         database.close();
     }
@@ -62,46 +68,44 @@ public class DBTools extends SQLiteOpenHelper {
     public int updateTuc (HashMap<String,String> queryValues){
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-
         values.put("noTuc", queryValues.get("noTuc"));
         values.put("owner", queryValues.get("owner"));
         values.put("saldo", queryValues.get("saldo"));
         values.put("lastUpdate", queryValues.get("lastUpdate"));
-
         return database.update("tuc", values, "tucId = ?", new String[] {queryValues.get("tucId")});
     }
 
-    public int updateSaldoTuc (HashMap<String,String> queryValues){
+    public void updateSaldoTuc (HashMap<String,String> queryValues){
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-
         values.put("saldo", queryValues.get("saldo"));
         values.put("lastUpdate", queryValues.get("lastUpdate"));
         //System.out.println("updateSaldoTuc saldo = "+queryValues.get("saldo")+" - date = "+queryValues.get("lastUpdate")+" ** tuc="+queryValues.get("noTuc"));
-        return database.update("tuc", values, "noTuc = ?", new String[] {queryValues.get("noTuc")});
+        database.update("tuc", values, "noTuc = ?", new String[] {queryValues.get("noTuc")});
+
+        values = new ContentValues();
+        values.put("tucId", getTucId(queryValues.get("noTuc")));
+        values.put("saldo", queryValues.get("saldo"));
+        values.put("fecha", queryValues.get("lastUpdate"));
+        database.insert("tucHist", null, values);
+        database.close();
     }
 
     public void deleteTuc (int id){
         //System.out.println("Deleting TUC "+id);
-        SQLiteDatabase database = this.getWritableDatabase();
-        String query = "delete from tuc where tucId="+id;
-
-        database.execSQL(query);
+        recreateDb();
     }
     public void deleteAllTuc (){
         SQLiteDatabase database = this.getWritableDatabase();
         String query = "delete from tuc";
-
         database.execSQL(query);
     }
 
     public ArrayList<HashMap<String, String>> getAllTucs(){
         ArrayList<HashMap<String, String>> tucArrayList = new ArrayList<HashMap<String, String>>();
-
         String query = " Select * from tuc order by owner";
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = database.rawQuery(query, null);
-
         if (cursor.moveToFirst()){
             do {
                 HashMap<String, String> tucMap = new HashMap<String, String>();
@@ -110,12 +114,39 @@ public class DBTools extends SQLiteOpenHelper {
                 tucMap.put("owner", cursor.getString(2));
                 tucMap.put("saldo", cursor.getString(3));
                 tucMap.put("lastUpdate", cursor.getString(4));
-
                 tucArrayList.add(tucMap);
             } while (cursor.moveToNext());
         }
         return tucArrayList;
+    }
 
+    public ArrayList<HashMap<String, String>> getTucHist(String noTuc){
+        ArrayList<HashMap<String, String>> tucArrayList = new ArrayList<HashMap<String, String>>();
+        String query = "Select a.tucId,a.noTuc, a.owner, b.saldo,b.fecha from tuc a join tucHist b on (a.tucId=b.tucId) where a.noTuc='"+noTuc+"' order by b.fecha";
+        System.out.println("++++++++ Getting TUC history => "+noTuc+" -- SQL="+query);
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.rawQuery(query, null);
+        if (cursor.moveToFirst()){
+            do {
+                System.out.println("++++++++ Adding "+cursor.getString(1)+" - "+cursor.getString(4)+" => "+cursor.getString(3));
+                HashMap<String, String> tucMap = new HashMap<String, String>();
+                tucMap.put("tucId", cursor.getString(0));
+                tucMap.put("noTuc", cursor.getString(1));
+                tucMap.put("owner", cursor.getString(2));
+                tucMap.put("saldo", cursor.getString(3));
+                tucMap.put("fecha", cursor.getString(4));
+                tucArrayList.add(tucMap);
+            } while (cursor.moveToNext());
+        }/*
+        String query = "Select * from tucHist b order by b.fecha";
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.rawQuery(query, null);
+        if (cursor.moveToFirst()){
+            do {
+                System.out.println("++++++++ Adding "+cursor.getString(0)+" - "+cursor.getString(1)+" => "+cursor.getString(2));
+            } while (cursor.moveToNext());
+        }*/
+        return tucArrayList;
     }
 
     public HashMap<String, String> getTucInfo(int tucId){

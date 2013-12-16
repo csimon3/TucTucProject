@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:layout_weight="1"
+        android:gravity="center"
         android:textIsSelectable="true" />
 
     <ImageButton
@@ -52,6 +53,16 @@
         android:layout_weight="0.5"
         android:onClick="verVecinos"
         android:src="@drawable/customers"/>
+
+
+    <ImageButton
+        android:id="@+id/tucHistButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:onClick="verHistory"
+        android:src="@drawable/history"/>
 
 
 </TableRow>

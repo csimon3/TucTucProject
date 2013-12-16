@@ -87,6 +87,11 @@ public class MainActivity extends ActionBarActivity {
         imm.hideSoftInputFromWindow(newTucEdit.getWindowToken(), 0);
         imm.hideSoftInputFromWindow(newTucOwner.getWindowToken(), 0);
 
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .commit();
+        }
+
     }
 
     @Override
@@ -371,10 +376,13 @@ public class MainActivity extends ActionBarActivity {
                 InputStreamReader isr = new InputStreamReader(is);
                 BufferedReader br = new BufferedReader(isr);
                 String line = br.readLine();
-                //System.out.println(line);
+                System.out.println(line);
                 if (line.startsWith("{\"Error\":true,")) {
                     saldo = TUC_INVALIDO;
                 } else {
+                    if (line.indexOf("HTML")>-1) {
+                    saldo = INDISPONIBLE;
+                } else
                     line = line.substring(47).replace("\"}", "");
                     //System.out.println(noTuc+" = " + line);
                     saldo = line;
@@ -461,5 +469,16 @@ public class MainActivity extends ActionBarActivity {
         } else {
             showAlert(R.string.sinConnTitle, R.string.sinConnMesg);
         }
+    }
+    public void verHistory(View view) {
+        TableRow tableRow = (TableRow) view.getParent();
+        TextView tucTextView = (TextView) tableRow.findViewById(R.id.tucId);
+        String tucId = tucTextView.getText().toString();
+        HashMap<String, String> myTuc = dbTools.getTucInfo(Integer.parseInt(tucId));
+        Intent myIntent = new Intent(getApplicationContext(), History.class);
+        myIntent.putExtra("noTucHist", myTuc.get("noTuc"));
+        myIntent.putExtra("ownerHist", myTuc.get("owner"));
+        myIntent.putExtra("saldoHist", myTuc.get("saldo"));
+        startActivity(myIntent);
     }
 }

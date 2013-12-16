@@ -5,7 +5,6 @@
     <string name="action_settings">Preferencias</string>
     <string name="action_about">Acerca de</string>
     <string name="action_exit">Salir</string>
-
     <string name="add_new_tuc">N° TUC</string>
     <string name="owner">Dueño</string>
     <string name="saldo">Saldo</string>
@@ -16,34 +15,23 @@
     <string name="update">Actualizar</string>
     <string name="updateAll">Actualizar todo</string>
     <string name="tucList">Mis tarjetas</string>
-
-
     <string name="invalid_tuc">TUC invalido</string>
     <string name="ok">OK</string>
     <string name="cancel">Anular</string>
     <string name="missing_tuc">Número de tarjeta TUC invalido</string>
-
-
     <string name="duplicated_tuc_title">TUC duplicado</string>
     <string name="duplicated_tuc_text">Este número de tarjeta TUC ya existe en su lista.\n\nPara cambiar el dueño, elimina y vuelve a crear la tarjeta.</string>
-
     <string name="hintNoTuc">Numero TUC</string>
     <string name="hintDueno">Nombre del dueño</string>
-
     <string name="sinConnTitle">Sin conexión de red</string>
     <string name="sinConnMesg">Se requiere una conexión a Internet para poder actualzar el saldo de la tarjeta. Vuelve a intentar cuando está conectado a Internet.</string>
     <string name="pending">Pendiente</string>
-
     <string name="removeConfirmTitle">Eliminar TODO ?</string>
     <string name="removeConfirmMessage">Quieres eliminar todas las tarjetas TUC de tu lista?</string>
-
     <string name="misVecinosHint">Ver mis vecinos virtuales</string>
     <string name="misVecinos">Vecinos virtuales de </string>
-
     <string name="misVecinosExplain">Resultado de la consulta de mis vecinos con número de tarjeta TUC entre 5 número menor al mio y 5 números mayor, jejeje...</string>
-
     <string name="misVecinosTotal">Total de saldo de mis vecinos : </string>
-
     <string name="misVecinosInvalid">Vecinos con tarjeta desactivada : </string>
     <string name="misVecinosEnZero">Vecinos palmados (saldo en zero) : </string>
     <string name="misVecinosSinRed">Vecinos desconectados (error de red) : </string>
@@ -54,11 +42,14 @@
     <string name="misVecinosMasPobre">Conclusión : los vecinos son más palmados :S</string>
     <string name="misVecinosSaldoDesc">No se puede comparar el saldo con el suyo ya que no tiene saldo registrado.</string>
     <string name="misVecinosConsulta">Se esta consultando a los vecinos... Un momento por favor...</string>
-
-
     <string name="about">Acerca de TucTuc</string>
     <string name="createdBy">Creado por : Cédric Simon</string>
     <string name="version">Versión :    </string>
     <string name="sourceCode">Código fuente disponible en : </string>
     <string name="chao">Hasta la vista, bye bye</string>
+    <string name="history">Histórico</string>
+    <string name="historyCard">Histórico de la tarjeta TUC</string>
+    <string name="de">de</string>
+    <string name="noHistorty">Sin dato histórico disponible</string>
+
 </resources>
