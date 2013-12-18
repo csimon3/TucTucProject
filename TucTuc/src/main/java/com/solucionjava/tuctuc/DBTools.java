@@ -34,9 +34,12 @@ public class DBTools extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
-        String query  = "create table tucHist (fecha text, tucId Integer, "+
-                " saldo text)";
-        sqLiteDatabase.execSQL(query);
+          try{
+              String   query  = "create table tucHist (fecha text, tucId Integer, "+
+                    " saldo text)";
+                sqLiteDatabase.execSQL(query);
+            }
+        catch (Exception e){}
     }
 
     public void recreateDb() {
@@ -94,11 +97,17 @@ public class DBTools extends SQLiteOpenHelper {
 
     public void deleteTuc (int id){
         //System.out.println("Deleting TUC "+id);
-        recreateDb();
+        SQLiteDatabase database = this.getWritableDatabase();
+        String query = "delete from tuc where tucId="+id;
+        database.execSQL(query);
+        query = "delete from tucHist where tucId="+id;
+        database.execSQL(query);
     }
     public void deleteAllTuc (){
         SQLiteDatabase database = this.getWritableDatabase();
         String query = "delete from tuc";
+        database.execSQL(query);
+        query = "delete from tucHist";
         database.execSQL(query);
     }
 
